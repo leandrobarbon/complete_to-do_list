@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent, useImperativeHandle, forwardRef, ChangeEvent } from "react";
+import { useState, FormEvent, useImperativeHandle, forwardRef, ChangeEvent } from "react";
 import { useDispatch } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid';
 import { RiCloseFill } from "react-icons/ri";
@@ -28,6 +28,9 @@ export const CreateEditModal = forwardRef((props: ModalProps, ref) => {
    })
    const [isEditing, setIsEditing] = useState(false)
 
+   // Responsável por fazer a modal abrir, ele verifica se tem tarefa,
+   // se tiver ele mostra a modal com os dados nos inputs, assim mostrandd
+   // que é uma modal de edição e não cadastro.
    const openModal = (task?: Task) => {
       if (task) {
          setIsEditing(true);
@@ -37,11 +40,13 @@ export const CreateEditModal = forwardRef((props: ModalProps, ref) => {
       setVisible(true)
    }
 
+   // Fecha modal e caso for modal edição ele já altera o estado para false.
    const closeModal = () => {
       setVisible(false);
       setIsEditing(false);
    }
 
+   // Responsável pelo resgistro de tarefas
    const registerTask = () => {
       const data: Task = {
          id: uuidv4(),
@@ -56,12 +61,15 @@ export const CreateEditModal = forwardRef((props: ModalProps, ref) => {
       closeModal()
    }
 
+   // Responsável pela edição
    const editTask = (data: Task) => {
       editTaskService(formData.id, { ...data })
       dispatch(updateTask(formData.id, { ...data }))
       closeModal()
    }
 
+   // Responsável pelo registro ou edição de uma tarefa, se caso ele isEditing
+   // for true, ele reconhece que é edição, se for false, ele apenas registra.
    const handleSubmit = async (event: FormEvent) => {
       event.preventDefault();
 
@@ -72,7 +80,7 @@ export const CreateEditModal = forwardRef((props: ModalProps, ref) => {
       registerTask()
    }
 
-
+   // Responsável por pegar os valres dos inputs
    const handleChangeInput = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = event.target
       setFormData({ ...formData, [name]: value })

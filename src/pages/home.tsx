@@ -10,10 +10,13 @@ export function Home() {
    const modalRef = useRef<ModalHandles>(null)
    const [typeList, setTypeList] = useState(ALL);
 
+   // responsavel pela abertura da modal
    const handleOpenModal = () => {
       modalRef.current?.openModal();
    }
 
+   // responsavel por gerenciar o clique nas tabs para mostrar as tarefas
+   // todas, concluídas, e não concluídas
    const handleChangeList = useCallback(
       (typelist: number) => {
          setTypeList(typelist)

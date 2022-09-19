@@ -3,7 +3,6 @@ import { ActionTypes } from '../actions/todoActions'
 
 interface InitialState {
    tasks: Task[];
-
 }
 
 interface Action {
